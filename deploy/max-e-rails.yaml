@@ -4,7 +4,7 @@ metadata:
   name: max-e-rails-restarter
   namespace: cronjobs
 spec:
-  schedule: "0 */4 * * *"
+  schedule: "0 3 * * *"
   jobTemplate:
     spec:
       template:
@@ -28,5 +28,38 @@ spec:
               - name: ECS_CLUSTER
                 value: stateless-cluster
               - name: ECS_SERVICE
-                value: landeskirche-max-e-authorUpdate
+                value: landeskirche-max-e-author
+          restartPolicy: Never
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: max-e-rails-restarter
+  namespace: cronjobs
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: max-e-rails-restarter
+            image: dtrierweiler/aws-ecs-service-restarter
+            env:
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-ecs
+                    key: access-key
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-ecs
+                    key: secret-key
+              - name: AWS_REGION
+                value: eu-central-1
+              - name: ECS_CLUSTER
+                value: stateless-cluster
+              - name: ECS_SERVICE
+                value: landeskirche-max-e-production
           restartPolicy: Never
