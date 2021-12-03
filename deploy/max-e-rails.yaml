@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: max-e-rails-restarter
+  name: max-e-rails-restarter-author
   namespace: cronjobs
 spec:
   schedule: "0 3 * * *"
@@ -34,7 +34,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: max-e-rails-restarter
+  name: max-e-rails-restarter-prod
   namespace: cronjobs
 spec:
   schedule: "0 2 * * *"
